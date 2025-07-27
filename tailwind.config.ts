@@ -18,6 +18,12 @@ export default {
 			}
 		},
 		extend: {
+			fontFamily: {
+				inter: ['Inter', 'sans-serif'],
+				zen: ['Zen Kurenaido', 'sans-serif'],
+				cinzel: ['Cinzel Decorative', 'serif'],
+				bebas: ['Bebas Neue', 'sans-serif'],
+			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
@@ -61,7 +67,33 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				/* Mystical theme colors */
+				mystic: {
+					purple: 'hsl(var(--mystic-purple))',
+					'purple-dark': 'hsl(var(--mystic-purple-dark))',
+					'purple-light': 'hsl(var(--mystic-purple-light))',
+				},
+				crimson: {
+					DEFAULT: 'hsl(var(--crimson))',
+					light: 'hsl(var(--crimson-light))',
+				},
+				gold: {
+					DEFAULT: 'hsl(var(--gold))',
+					dark: 'hsl(var(--gold-dark))',
 				}
+			},
+			backgroundImage: {
+				'gradient-mystic': 'var(--gradient-mystic)',
+				'gradient-portal': 'var(--gradient-portal)',
+				'gradient-gold': 'var(--gradient-gold)',
+				'gradient-crimson': 'var(--gradient-crimson)',
+			},
+			boxShadow: {
+				'mystic': 'var(--shadow-mystic)',
+				'gold': 'var(--shadow-gold)',
+				'crimson': 'var(--shadow-crimson)',
+				'card-floating': 'var(--shadow-card)',
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
