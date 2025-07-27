@@ -1,3 +1,5 @@
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Navbar } from '@/components/ui/navbar';
 import { Footer } from '@/components/ui/footer';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
@@ -5,6 +7,8 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { SuggestGroupModal } from '@/components/ui/suggest-group-modal';
+import { SuggestionCard } from '@/components/ui/suggestion-card';
 import { 
   Users, 
   Clock, 
@@ -14,10 +18,15 @@ import {
   Zap,
   TrendingUp,
   Crown,
-  Timer
+  Timer,
+  Plus,
+  MessageCircle
 } from 'lucide-react';
 
 const GroupBuy = () => {
+  const navigate = useNavigate();
+  const [isSuggestModalOpen, setIsSuggestModalOpen] = useState(false);
+  const [userVotes, setUserVotes] = useState<Record<number, 'interested' | 'notInterested' | 'spam'>>({});
   const groupDeals = [
     {
       id: 1,
@@ -103,6 +112,38 @@ const GroupBuy = () => {
     },
   ];
 
+  const communityVotes = [
+    {
+      id: 1,
+      title: "Crypto Legends VIP Bundle",
+      description: "Exclusive access to top crypto trading signals from verified professionals",
+      organizer: "CryptoSensei",
+      suggestedPrice: 38,
+      minSlots: 15,
+      tags: ["Crypto", "Bitcoin", "Ethereum", "Signals"],
+      votes: { interested: 42, notInterested: 8, spam: 2 }
+    },
+    {
+      id: 2,
+      title: "Gold Rush Trading Collective",
+      description: "Premium gold and precious metals trading signals with high accuracy",
+      organizer: "GoldMaster",
+      suggestedPrice: 55,
+      minSlots: 20,
+      tags: ["Gold", "Forex", "Metals", "Analysis"],
+      votes: { interested: 29, notInterested: 12, spam: 1 }
+    },
+    {
+      id: 3,
+      title: "Ninja Scalping Academy",
+      description: "Lightning-fast scalping signals for day traders seeking quick profits",
+      suggestedPrice: 42,
+      minSlots: 12,
+      tags: ["Scalping", "Day Trading", "Quick Signals"],
+      votes: { interested: 35, notInterested: 6, spam: 0 }
+    }
+  ];
+
   const benefits = [
     {
       icon: DollarSign,
@@ -136,6 +177,17 @@ const GroupBuy = () => {
     if (timeLeft.includes("1 day") || timeLeft.includes("2 day")) return "text-crimson";
     if (timeLeft.includes("3 day") || timeLeft.includes("4 day")) return "text-accent";
     return "text-mystic-purple";
+  };
+
+  const handleVote = (suggestionId: number, voteType: 'interested' | 'notInterested' | 'spam') => {
+    setUserVotes(prev => ({
+      ...prev,
+      [suggestionId]: prev[suggestionId] === voteType ? undefined : voteType
+    }));
+  };
+
+  const handleJoinGroup = (dealId: number) => {
+    navigate(`/checkout?deal=${dealId}`);
   };
 
   return (
@@ -316,6 +368,7 @@ const GroupBuy = () => {
                           : 'mystic-glow bg-gradient-mystic hover:bg-mystic-purple-dark'
                       }`}
                       disabled={slotsLeft === 0}
+                      onClick={() => handleJoinGroup(deal.id)}
                     >
                       {slotsLeft === 0 ? (
                         <>Group Full</>
@@ -330,6 +383,45 @@ const GroupBuy = () => {
                 </Card>
               );
             })}
+          </div>
+        </div>
+      </section>
+
+      {/* Community Suggestions */}
+      <section className="py-16 px-4 bg-gradient-to-b from-card/20 to-transparent">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex items-center justify-between mb-12">
+            <h2 className="text-3xl font-bold mystic-text-glow">
+              🗳️ Community Suggestions
+            </h2>
+            <Badge className="bg-mystic-purple/20 text-mystic-purple border-mystic-purple/30">
+              <MessageCircle className="h-3 w-3 mr-1" />
+              {communityVotes.length} Active
+            </Badge>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 mb-8">
+            {communityVotes.map((suggestion) => (
+              <SuggestionCard
+                key={suggestion.id}
+                {...suggestion}
+                userVote={userVotes[suggestion.id]}
+                onVote={handleVote}
+              />
+            ))}
+          </div>
+
+          <div className="text-center">
+            <p className="text-muted-foreground mb-4">
+              Have an idea for a group buy? Share it with the community!
+            </p>
+            <Button
+              onClick={() => setIsSuggestModalOpen(true)}
+              className="mystic-glow bg-gradient-mystic hover:bg-mystic-purple-dark"
+            >
+              <Plus className="h-4 w-4 mr-2" />
+              Suggest New Group Buy
+            </Button>
           </div>
         </div>
       </section>
@@ -372,6 +464,21 @@ const GroupBuy = () => {
       </section>
 
       <Footer />
+
+      {/* Floating Suggest Button */}
+      <Button
+        onClick={() => setIsSuggestModalOpen(true)}
+        className="fixed bottom-6 right-6 z-50 rounded-full w-14 h-14 mystic-glow bg-gradient-mystic hover:bg-mystic-purple-dark shadow-lg"
+        size="icon"
+      >
+        <Plus className="h-6 w-6" />
+      </Button>
+
+      {/* Suggest Modal */}
+      <SuggestGroupModal
+        open={isSuggestModalOpen}
+        onOpenChange={setIsSuggestModalOpen}
+      />
     </div>
   );
 };
