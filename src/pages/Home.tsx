@@ -4,6 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { Navbar } from '@/components/ui/navbar';
 import { Footer } from '@/components/ui/footer';
 import { ChannelCard } from '@/components/ui/channel-card';
+import { TopChannelsCarousel } from '@/components/ui/top-channels-carousel';
 import { Link } from 'react-router-dom';
 import { 
   ArrowRight, 
@@ -27,6 +28,8 @@ const Home = () => {
       lastSignal: "2 hours ago",
       description: "Elite gold trading signals with ancient wisdom",
       isPopular: true,
+      platform: 'telegram' as const,
+      spotsLeft: 3,
     },
     {
       name: "Shadow Strike",
@@ -35,6 +38,7 @@ const Home = () => {
       assets: ["GBP/USD", "USD/JPY"],
       lastSignal: "45 min ago",
       description: "Swift forex strikes in the shadows",
+      platform: 'discord' as const,
     },
     {
       name: "Mystic Flow",
@@ -43,6 +47,8 @@ const Home = () => {
       assets: ["EUR/GBP", "AUD/USD"],
       lastSignal: "1 hour ago",
       description: "Flowing with market currents",
+      platform: 'telegram' as const,
+      spotsLeft: 1,
     },
   ];
 
@@ -81,16 +87,21 @@ const Home = () => {
         />
         <div className="absolute inset-0 bg-gradient-portal" />
         
-        {/* Floating particles */}
+        {/* Enhanced floating particles */}
         <div className="absolute inset-0">
-          {[...Array(20)].map((_, i) => (
+          {[...Array(30)].map((_, i) => (
             <div
               key={i}
-              className="particle absolute w-2 h-2 bg-mystic-purple rounded-full pulse-glow"
+              className="particle absolute rounded-full pulse-glow"
               style={{
+                width: `${Math.random() * 6 + 2}px`,
+                height: `${Math.random() * 6 + 2}px`,
+                backgroundColor: i % 3 === 0 ? 'hsl(var(--mystic-purple))' : 
+                                i % 3 === 1 ? 'hsl(var(--gold))' : 'hsl(var(--crimson))',
                 left: `${Math.random() * 100}%`,
                 top: `${Math.random() * 100}%`,
                 animationDelay: `${Math.random() * 6}s`,
+                animationDuration: `${Math.random() * 4 + 3}s`
               }}
             />
           ))}
@@ -102,9 +113,17 @@ const Home = () => {
             Premium Trading Platform
           </Badge>
           
-          <h1 className="text-5xl md:text-7xl font-cinzel font-bold mb-6 shimmer-text">
-            Unlock the Forbidden Signals
-          </h1>
+          <div className="flex items-center justify-center mb-4">
+            <div className="ninja-float mr-4">
+              🥷
+            </div>
+            <h1 className="text-5xl md:text-7xl font-cinzel font-bold shimmer-text">
+              Unlock the Forbidden Signals
+            </h1>
+            <div className="ninja-float ml-4">
+              ⚡
+            </div>
+          </div>
           
           <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-2xl mx-auto">
             Access 200+ channels through <span className="text-accent font-semibold">solo mastery</span>, 
@@ -114,14 +133,14 @@ const Home = () => {
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link to="/channels">
-              <Button size="lg" className="mystic-glow bg-gradient-mystic hover:bg-mystic-purple-dark">
+              <Button size="lg" className="bg-gradient-mystic hover:bg-mystic-purple-dark spark-trail btn-ripple">
                 <TrendingUp className="h-5 w-5 mr-2" />
                 Browse Channels
                 <ArrowRight className="h-5 w-5 ml-2" />
               </Button>
             </Link>
             <Link to="/group-buy">
-              <Button size="lg" variant="outline" className="gold-glow border-accent text-accent hover:bg-accent/20">
+              <Button size="lg" variant="outline" className="gold-glow border-accent text-accent hover:bg-accent/20 btn-ripple">
                 <Users className="h-5 w-5 mr-2" />
                 Join a Group Buy
               </Button>
@@ -172,11 +191,7 @@ const Home = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {topChannels.map((channel) => (
-              <ChannelCard key={channel.name} {...channel} />
-            ))}
-          </div>
+          <TopChannelsCarousel channels={topChannels} />
 
           <div className="text-center mt-12">
             <Link to="/channels">
