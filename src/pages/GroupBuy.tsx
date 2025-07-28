@@ -195,37 +195,68 @@ const GroupBuy = () => {
       <Navbar />
       
       {/* Hero Section */}
-      <section className="py-20 px-4 bg-gradient-portal">
-        <div className="max-w-7xl mx-auto text-center">
-          <Badge className="mb-6 bg-crimson/20 text-crimson border-crimson/30">
-            <Users className="h-3 w-3 mr-1" />
-            Group Buy Deals
+      <section className="relative py-24 px-4 bg-gradient-portal overflow-hidden">
+        <div className="absolute inset-0 bg-[url('/src/assets/scroll-bg.jpg')] bg-cover bg-center opacity-10"></div>
+        <div className="absolute inset-0 mystic-particles"></div>
+        <div className="max-w-7xl mx-auto text-center relative z-10">
+          <Badge className="mb-8 bg-crimson/20 text-crimson border-crimson/30 animate-pulse">
+            <Users className="h-4 w-4 mr-2" />
+            Live Group Buy Deals
           </Badge>
-          <h1 className="text-4xl md:text-5xl font-cinzel font-bold mb-6 shimmer-text">
-            🤝 United We Trade
+          <h1 className="text-5xl md:text-7xl font-cinzel font-bold mb-8 mystic-text-glow relative">
+            <span className="relative z-10">✨ United We Trade</span>
+            <div className="absolute inset-0 animate-ping opacity-20 bg-gradient-mystic rounded-full blur-xl"></div>
           </h1>
-          <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto">
-            Join forces with fellow traders to unlock premium signals at unbeatable prices. 
-            Community power meets trading excellence.
+          <p className="text-xl md:text-2xl text-mystic-purple mb-6 max-w-4xl mx-auto font-medium">
+            Unlock premium signals. Join forces. Trade like a master.
           </p>
+          <p className="text-lg text-muted-foreground mb-12 max-w-3xl mx-auto">
+            Harness the power of community to access elite trading channels at mystical discounts.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <Button 
+              size="lg"
+              className="px-8 py-4 text-lg crimson-glow bg-gradient-crimson hover:bg-crimson transform hover:scale-105 transition-all duration-300"
+              onClick={() => document.getElementById('active-deals')?.scrollIntoView({ behavior: 'smooth' })}
+            >
+              <Zap className="h-5 w-5 mr-2" />
+              View Live Deals
+            </Button>
+            <Button
+              size="lg"
+              variant="outline"
+              className="px-8 py-4 text-lg border-mystic-purple/50 text-mystic-purple hover:bg-mystic-purple/10 mystic-glow transform hover:scale-105 transition-all duration-300"
+              onClick={() => setIsSuggestModalOpen(true)}
+            >
+              <Plus className="h-5 w-5 mr-2" />
+              Suggest Group Buy
+            </Button>
+          </div>
         </div>
       </section>
 
       {/* Benefits Section */}
-      <section className="py-16 px-4">
+      <section className="py-20 px-4 bg-gradient-to-b from-transparent via-mystic-purple/5 to-transparent">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-12 mystic-text-glow">
-            Why Group Buy?
+          <h2 className="text-4xl font-bold text-center mb-16 mystic-text-glow">
+            ⚡ Why Group Buy?
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {benefits.map((benefit) => (
-              <Card key={benefit.title} className="floating-card border-mystic-purple/30 text-center">
-                <CardContent className="p-6">
-                  <div className="w-12 h-12 mx-auto mb-4 bg-gradient-mystic rounded-lg flex items-center justify-center mystic-glow">
-                    <benefit.icon className="h-6 w-6 text-white" />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {benefits.map((benefit, index) => (
+              <Card 
+                key={benefit.title} 
+                className="floating-card border-mystic-purple/30 text-center group hover:border-crimson/50 transition-all duration-500 hover:scale-105 hover:rotate-1"
+                style={{ animationDelay: `${index * 0.2}s` }}
+              >
+                <CardContent className="p-8">
+                  <div className="relative w-20 h-20 mx-auto mb-6">
+                    <div className="absolute inset-0 bg-gradient-mystic rounded-xl mystic-glow group-hover:bg-gradient-crimson transition-all duration-500 animate-pulse"></div>
+                    <div className="relative w-full h-full bg-gradient-mystic rounded-xl flex items-center justify-center group-hover:bg-gradient-crimson transition-all duration-500">
+                      <benefit.icon className="h-8 w-8 text-white drop-shadow-lg" />
+                    </div>
                   </div>
-                  <h3 className="font-bold text-lg mb-2">{benefit.title}</h3>
-                  <p className="text-muted-foreground text-sm">{benefit.description}</p>
+                  <h3 className="font-bold text-xl mb-3 group-hover:text-crimson transition-colors duration-300">{benefit.title}</h3>
+                  <p className="text-muted-foreground leading-relaxed">{benefit.description}</p>
                 </CardContent>
               </Card>
             ))}
@@ -234,15 +265,22 @@ const GroupBuy = () => {
       </section>
 
       {/* Active Group Deals */}
-      <section className="py-16 px-4">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex items-center justify-between mb-12">
-            <h2 className="text-3xl font-bold mystic-text-glow">
-              🔥 Active Group Deals
-            </h2>
-            <Badge className="bg-emerald-500/20 text-emerald-400 border-emerald-500/30">
-              {groupDeals.length} Live Deals
-            </Badge>
+      <section id="active-deals" className="py-20 px-4 relative">
+        <div className="absolute inset-0 bg-gradient-to-b from-card/10 via-transparent to-card/10"></div>
+        <div className="max-w-7xl mx-auto relative z-10">
+          <div className="flex flex-col md:flex-row items-center justify-between mb-16">
+            <div>
+              <h2 className="text-4xl md:text-5xl font-bold mystic-text-glow mb-4">
+                🔥 Active Group Deals
+              </h2>
+              <p className="text-lg text-muted-foreground">Limited spots. Mystical savings. Elite access.</p>
+            </div>
+            <div className="flex items-center space-x-4 mt-4 md:mt-0">
+              <Badge className="bg-emerald-500/20 text-emerald-400 border-emerald-500/30 px-4 py-2 text-lg animate-pulse">
+                <div className="w-2 h-2 bg-emerald-400 rounded-full mr-2 animate-ping"></div>
+                {groupDeals.length} Live Deals
+              </Badge>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -253,13 +291,16 @@ const GroupBuy = () => {
               return (
                 <Card 
                   key={deal.id} 
-                  className={`floating-card overflow-hidden ${
-                    deal.isHot ? 'border-crimson/50 bg-gradient-to-b from-card to-crimson/5' : 'border-mystic-purple/30'
+                  className={`floating-card overflow-hidden transform hover:scale-105 transition-all duration-500 group ${
+                    deal.isHot 
+                      ? 'border-crimson/60 bg-gradient-to-br from-card via-crimson/5 to-card crimson-glow' 
+                      : 'border-mystic-purple/40 mystic-glow hover:border-accent/50'
                   }`}
                 >
                   {deal.isHot && (
-                    <div className="bg-gradient-crimson px-4 py-2 text-center">
-                      <span className="text-white font-bold text-sm">🔥 HOT DEAL - FILLING FAST</span>
+                    <div className="bg-gradient-crimson px-4 py-3 text-center relative overflow-hidden">
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shimmer"></div>
+                      <span className="text-white font-bold text-sm relative z-10">🔥 HOT DEAL - FILLING FAST</span>
                     </div>
                   )}
                   
@@ -294,32 +335,54 @@ const GroupBuy = () => {
 
                   <CardContent className="space-y-6">
                     {/* Progress */}
-                    <div className="space-y-3">
-                      <div className="flex justify-between text-sm">
-                        <span>Spots filled</span>
-                        <span className="font-medium">{deal.slotsFilled}/{deal.slotsTotal}</span>
+                    <div className="space-y-4">
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm font-medium">Spots filled</span>
+                        <div className="flex items-center space-x-2">
+                          <span className="font-bold text-lg">{deal.slotsFilled}</span>
+                          <span className="text-muted-foreground">/</span>
+                          <span className="text-muted-foreground">{deal.slotsTotal}</span>
+                        </div>
                       </div>
-                      <div className="w-full bg-background/50 rounded-full h-3">
-                        <div 
-                          className={`${getProgressColor(progressPercentage)} h-3 rounded-full transition-all duration-1000`}
-                          style={{ width: `${progressPercentage}%` }}
-                        />
+                      <div className="relative">
+                        <div className="w-full bg-background/50 rounded-full h-4 overflow-hidden">
+                          <div 
+                            className={`${getProgressColor(progressPercentage)} h-4 rounded-full transition-all duration-1000 relative overflow-hidden`}
+                            style={{ width: `${progressPercentage}%` }}
+                          >
+                            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-shimmer"></div>
+                          </div>
+                        </div>
+                        <div className="absolute -top-1 -bottom-1 left-0 right-0 rounded-full border-2 border-white/10"></div>
                       </div>
-                      <p className="text-xs text-muted-foreground">
-                        {slotsLeft} spots remaining
-                      </p>
+                      <div className="flex justify-between items-center">
+                        <p className="text-sm text-muted-foreground">
+                          {slotsLeft} spots remaining
+                        </p>
+                        <div className="flex items-center space-x-1">
+                          <div className={`w-2 h-2 rounded-full ${slotsLeft <= 3 ? 'bg-crimson animate-pulse' : 'bg-emerald-400'}`}></div>
+                          <span className={`text-xs font-medium ${slotsLeft <= 3 ? 'text-crimson' : 'text-emerald-400'}`}>
+                            {slotsLeft <= 3 ? 'Almost Full!' : 'Available'}
+                          </span>
+                        </div>
+                      </div>
                     </div>
 
                     {/* Channels */}
-                    <div className="space-y-2">
-                      <span className="text-sm font-medium">Included Channels</span>
-                      <div className="flex flex-wrap gap-1">
-                        {deal.channels.map((channel) => (
+                    <div className="space-y-3">
+                      <span className="text-sm font-medium flex items-center">
+                        <Zap className="h-4 w-4 mr-2 text-accent" />
+                        Included Channels
+                      </span>
+                      <div className="flex flex-wrap gap-2">
+                        {deal.channels.map((channel, index) => (
                           <Badge 
                             key={channel} 
                             variant="secondary" 
-                            className="text-xs bg-mystic-purple/20 text-mystic-purple border-mystic-purple/30"
+                            className="text-xs bg-mystic-purple/20 text-mystic-purple border-mystic-purple/30 hover:bg-mystic-purple/30 hover:scale-105 transition-all duration-300 cursor-pointer"
+                            style={{ animationDelay: `${index * 0.1}s` }}
                           >
+                            <span className="w-1.5 h-1.5 bg-mystic-purple rounded-full mr-1 animate-pulse"></span>
                             {channel}
                           </Badge>
                         ))}
@@ -362,21 +425,24 @@ const GroupBuy = () => {
 
                     {/* Join Button */}
                     <Button 
-                      className={`w-full ${
+                      size="lg"
+                      className={`w-full py-4 text-lg font-bold relative overflow-hidden transform hover:scale-105 transition-all duration-300 ${
                         deal.isHot 
-                          ? 'crimson-glow bg-gradient-crimson hover:bg-crimson' 
-                          : 'mystic-glow bg-gradient-mystic hover:bg-mystic-purple-dark'
-                      }`}
+                          ? 'crimson-glow bg-gradient-crimson hover:bg-crimson shadow-crimson/50' 
+                          : 'mystic-glow bg-gradient-mystic hover:bg-mystic-purple-dark shadow-mystic-purple/50'
+                      } ${slotsLeft === 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
                       disabled={slotsLeft === 0}
                       onClick={() => handleJoinGroup(deal.id)}
                     >
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shimmer"></div>
                       {slotsLeft === 0 ? (
-                        <>Group Full</>
+                        <span className="relative z-10">🔒 Group Full</span>
                       ) : (
-                        <>
-                          <Users className="h-4 w-4 mr-2" />
+                        <span className="relative z-10 flex items-center justify-center">
+                          <Users className="h-5 w-5 mr-2" />
                           Join Group (${deal.groupPrice}/mo)
-                        </>
+                          {slotsLeft <= 3 && <span className="ml-2 animate-pulse">⚡</span>}
+                        </span>
                       )}
                     </Button>
                   </CardContent>
@@ -427,36 +493,55 @@ const GroupBuy = () => {
       </section>
 
       {/* How It Works */}
-      <section className="py-16 px-4 bg-gradient-to-b from-transparent to-card/30">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-12 mystic-text-glow">
-            How Group Buy Works
+      <section className="py-20 px-4 bg-gradient-to-b from-transparent via-mystic-purple/5 to-card/30">
+        <div className="max-w-6xl mx-auto text-center">
+          <h2 className="text-4xl font-bold mb-6 mystic-text-glow">
+            🧙‍♂️ How Group Buy Works
           </h2>
+          <p className="text-lg text-muted-foreground mb-16 max-w-2xl mx-auto">
+            Follow the mystical path to unlock premium signals at legendary prices
+          </p>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 relative">
+            {/* Connecting Lines */}
+            <div className="hidden md:block absolute top-24 left-1/4 right-1/4 h-0.5 bg-gradient-to-r from-mystic-purple via-accent to-mystic-purple"></div>
+            
             {[
               {
                 step: "1",
+                icon: "🎯",
                 title: "Join a Group",
                 description: "Choose a group deal and secure your spot. Payment is held securely until group fills.",
               },
               {
                 step: "2", 
+                icon: "⚡",
                 title: "Group Fills Up",
                 description: "Once all spots are filled, the group buy is activated and payments are processed.",
               },
               {
                 step: "3",
+                icon: "🏆",
                 title: "Get Access",
                 description: "Instantly receive access to all channels in the bundle at the discounted group price.",
               },
-            ].map((step) => (
-              <div key={step.step} className="space-y-4">
-                <div className="w-16 h-16 mx-auto bg-gradient-mystic rounded-full flex items-center justify-center mystic-glow">
-                  <span className="text-white font-bold text-xl">{step.step}</span>
+            ].map((step, index) => (
+              <div 
+                key={step.step} 
+                className="relative group"
+                style={{ animationDelay: `${index * 0.3}s` }}
+              >
+                <div className="relative">
+                  <div className="w-24 h-24 mx-auto mb-6 bg-gradient-mystic rounded-full flex items-center justify-center mystic-glow group-hover:bg-gradient-crimson transition-all duration-500 relative">
+                    <div className="absolute inset-0 rounded-full bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shimmer"></div>
+                    <span className="text-3xl relative z-10">{step.icon}</span>
+                    <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-card rounded-full border-2 border-mystic-purple flex items-center justify-center">
+                      <span className="text-mystic-purple font-bold text-sm">{step.step}</span>
+                    </div>
+                  </div>
                 </div>
-                <h3 className="font-bold text-lg">{step.title}</h3>
-                <p className="text-muted-foreground">{step.description}</p>
+                <h3 className="font-bold text-xl mb-4 group-hover:text-crimson transition-colors duration-300">{step.title}</h3>
+                <p className="text-muted-foreground leading-relaxed">{step.description}</p>
               </div>
             ))}
           </div>
@@ -468,11 +553,22 @@ const GroupBuy = () => {
       {/* Floating Suggest Button */}
       <Button
         onClick={() => setIsSuggestModalOpen(true)}
-        className="fixed bottom-6 right-6 z-50 rounded-full w-14 h-14 mystic-glow bg-gradient-mystic hover:bg-mystic-purple-dark shadow-lg"
+        className="fixed bottom-6 right-6 z-50 rounded-full w-16 h-16 mystic-glow bg-gradient-mystic hover:bg-gradient-crimson shadow-2xl transform hover:scale-110 transition-all duration-300 animate-pulse"
         size="icon"
       >
-        <Plus className="h-6 w-6" />
+        <div className="absolute inset-0 rounded-full bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shimmer"></div>
+        <Plus className="h-7 w-7 relative z-10" />
       </Button>
+
+      {/* Sticky Live Counter */}
+      <div className="fixed top-20 right-4 z-40 bg-card/90 backdrop-blur-sm border border-emerald-500/30 rounded-lg px-4 py-2 shadow-lg">
+        <div className="flex items-center space-x-2">
+          <div className="w-2 h-2 bg-emerald-400 rounded-full animate-ping"></div>
+          <span className="text-sm font-medium text-emerald-400">
+            {groupDeals.filter(deal => deal.slotsFilled < deal.slotsTotal).length} Live Groups
+          </span>
+        </div>
+      </div>
 
       {/* Suggest Modal */}
       <SuggestGroupModal
